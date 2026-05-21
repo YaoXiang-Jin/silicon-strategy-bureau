@@ -1,6 +1,6 @@
 # Silicon Strategy Bureau: A Lightweight Multi-Agent Collaboration Architecture for Individual Knowledge Workers
 
-> **USER MANUAL v1.0** · Academic Paper Style
+> **USER MANUAL v1.0** · Academic Paper-Style Guide
 >
 > Applicable Version: Silicon Strategy Bureau v2.0
 >
@@ -8,9 +8,9 @@
 >
 > ## Abstract
 
-With the rapid advancement of Large Language Model (LLM) capabilities, Multi-Agent collaboration systems have become an important paradigm for AI applications. However, existing frameworks (LangGraph, CrewAI, AutoGen, etc.) are primarily designed for enterprise-level distributed deployment, with insufficient consideration for individual knowledge worker use cases. This paper proposes the **Silicon Strategy Bureau** — a lightweight Multi-Agent collaboration architecture designed for individual users. The architecture adopts a hybrid Orchestrator-Worker + Router pattern, uses the file system as shared state storage, and implements mechanisms including STATE_BLOCK, task kanban, blocking protocol, and cross-role message formats to deliver a zero-deployment-dependency, cross-session persistent AI team organization solution.
+As large language model (LLM) capabilities rapidly advance, Multi-Agent collaboration systems have become a significant paradigm in AI applications. However, existing frameworks (LangGraph, CrewAI, AutoGen, etc.) primarily target enterprise-level distributed deployment, with limited consideration for individual knowledge workers' use cases. This paper presents the **Silicon Strategy Bureau** — a lightweight Multi-Agent collaboration architecture for individual users. The architecture adopts an Orchestrator-Worker + Router hybrid pattern, using the filesystem as shared state storage. Through mechanisms including STATE_BLOCK, task boards, blocking protocols, and cross-role message formats, it provides a zero-deployment-dependency, cross-session persistent AI team organization solution.
 
-**Keywords**: Multi-Agent Systems · Human-AI Collaboration · LLM · State Management · Knowledge Management · Orchestrator-Worker
+**Keywords**: Multi-Agent System · Human-AI Collaboration · LLM · State Management · Knowledge Management · Orchestrator-Worker
 
 ---
 
@@ -18,21 +18,21 @@ With the rapid advancement of Large Language Model (LLM) capabilities, Multi-Age
 
 ### 1.1 Problem Background
 
-Individual knowledge workers (such as investors, engineers, and managers) face information processing demands across multiple professional domains: investment analysis, career planning, technical problems, and life decisions. The traditional approach is to switch topics within a single AI conversation, which encounters three core pain points:
+Individual knowledge workers (such as investors, engineers, and managers) face information processing demands across multiple professional domains: investment analysis, career planning, technical issues, and life decisions. The traditional approach of switching topics within a single AI conversation faces three core pain points:
 
-1. **Context Pollution**: Investment analysis and technical problems interfere with each other in the same conversation, making it difficult for the AI to maintain domain expertise
-2. **State Loss**: After switching conversations, all prior analysis, decisions, and progress are lost — requiring a full re-introduction each time
-3. **Knowledge Silos**: Discoveries from different domains cannot be shared with each other — industry insights from the technical domain may be critical to investment decisions, yet information does not flow automatically
+1. **Context Pollution**: Investment analysis and technical issues in the same conversation interfere with each other, making it difficult for AI to maintain domain specialization
+2. **State Loss**: After switching sessions, all previous analysis, decisions, and progress are lost — requiring "re-introduction" every time
+3. **Knowledge Silos**: Discoveries from different domains cannot flow between each other — a technical industry insight might be critical for investment decisions, but information doesn't automatically propagate
 
-### 1.2 Design Goals
+### 1.2 Design Objectives
 
-The Silicon Strategy Bureau's design goal is to solve the three pain points above **without introducing external infrastructure**:
+The Silicon Strategy Bureau's design goal is to address these three pain points **without introducing external infrastructure**:
 
 | Pain Point | Solution |
-|------|---------|
-| Context Pollution | Role separation — each role runs in an independent conversation with its own knowledge boundary |
-| State Loss | STATE_BLOCK + HANDOVER files — structured state snapshots that AI auto-parses upon wake-up |
-| Knowledge Silos | CROSS_ROLE_MSG + daily summary board — structured cross-role messages for explicit information flow |
+|------------|----------|
+| Context Pollution | Role separation — each role runs in its own conversation with independent knowledge boundaries |
+| State Loss | STATE_BLOCK + HANDOVER files — structured state snapshots, auto-parsed on AI wakeup |
+| Knowledge Silos | CROSS_ROLE_MSG + daily board — structured cross-role messages, explicit information flow |
 
 ---
 
@@ -43,7 +43,7 @@ The Silicon Strategy Bureau's design goal is to solve the three pain points abov
 In recent years, Multi-Agent collaboration frameworks have proliferated. Edison (2026) categorizes existing architectures into 7 paradigms:
 
 | Paradigm | Representative Frameworks | Core Characteristics | Deployment Complexity |
-|------|---------|---------|:---:|
+|----------|--------------------------|---------------------|:---:|
 | Orchestrator-Worker | Anthropic Agent SDK, Magentic-One | Central orchestration, star topology | Medium |
 | Chain / Pipeline | MetaGPT, ChatDev | SOP-driven, sequential execution | Medium |
 | Flat / Debate | CAMEL, FREE-MAD | Decentralized, direct Agent communication | High |
@@ -55,23 +55,23 @@ In recent years, Multi-Agent collaboration frameworks have proliferated. Edison 
 ### 2.2 Key Paper Influences
 
 | Paper | Direct Contribution to This Architecture |
-|------|------------------|
-| **AutoGen (Wu et al., COLM 2024)** | Reference pattern for multi-Agent conversation coordination, especially structured message type design |
-| **MetaGPT (Hong et al., ICLR 2024)** | SOP-driven collaboration — the steps[] structure of the task kanban is directly derived from this |
-| **Anthropic Harness (2025)** | Core inspiration: passes mechanism (skip prevention), Checkpoint, observability-first approach |
-| **CAMEL (Li et al., NeurIPS 2023)** | Role-playing Agent communication — theoretical foundation for the four-role persona design |
-| **HALO (2025)** | Three-layer architecture stratification — direct reference for ADR-004's role tiering |
+|-------|------------------------------------------|
+| **AutoGen (Wu et al., COLM 2024)** | Multi-Agent conversation coordination patterns, especially structured message type design |
+| **MetaGPT (Hong et al., ICLR 2024)** | SOP-driven collaboration — task board's steps[] structure directly derived from this |
+| **Anthropic Harness (2025)** | Core inspiration: passes mechanism (anti-skip), Checkpoint, observability-first |
+| **CAMEL (Li et al., NeurIPS 2023)** | Role-playing Agent communication — theoretical foundation for four-role personification |
+| **HALO (2025)** | Three-layer architecture tiering strategy — ADR-004 role tiering directly references this |
 
 ### 2.3 Key Differences from Existing Frameworks
 
 | Dimension | Enterprise Frameworks (LangGraph/CrewAI) | Silicon Strategy Bureau |
-|------|-------------------------------|-----------|
-| **Deployment Dependencies** | Requires Python environment, database (Postgres/Redis) | Zero dependencies — pure file system |
+|-----------|------------------------------------------|------------------------|
+| **Deployment Dependency** | Requires Python environment, database (Postgres/Redis) | Zero dependency — pure filesystem |
 | **Concurrency Model** | Multi-Agent parallel execution | Single-threaded serial (user switches roles on demand) |
 | **State Storage** | PostgresSaver / Redis / Event Sourcing | Markdown + JSON files |
-| **Communication** | Message queues / HTTP / gRPC | Files + user bridging |
-| **Target Users** | Dev teams, enterprises | Individual knowledge workers |
-| **Learning Curve** | Requires programming skills | Only requires understanding file organization rules |
+| **Communication** | Message queue / HTTP / gRPC | Files + user bridging |
+| **Target User** | Development teams, enterprises | Individual knowledge workers |
+| **Learning Curve** | Requires programming skills | Only needs to understand file organization rules |
 
 ---
 
@@ -79,30 +79,29 @@ In recent years, Multi-Agent collaboration frameworks have proliferated. Edison 
 
 ### 3.1 Architecture Pattern
 
-The Silicon Strategy Bureau adopts a **hybrid Orchestrator-Worker + Router pattern**:
+The Silicon Strategy Bureau adopts an **Orchestrator-Worker + Router hybrid pattern**:
 
 ```
                         User (Orchestrator + Router)
                              │
                 ┌────────────┼────────────┐
                 │            │            │
-           Agent A       Agent B      Agent C       Agent D
-        (Investment/    (Career/     (Tech/        (Life/
-          Finance)      Business)    Engineering)   Emotion)
-        Full Harness   Full Harness  Medium        Lightest
+           Agent A      Agent B      Agent C      Agent D
+         (Investment)  (Career)     (Tech/Eng)   (Life/Wellness)
+         Full Harness  Full Harness  Medium       Lightest
 ```
 
-- **Orchestrator**: The user — responsible for task decomposition, Agent selection, information relay, and final decision-making
-- **Router**: Determines, based on task complexity, whether to route directly to a single Agent or initiate multi-Agent collaboration
-- **Worker**: Four domain Agents — each with independent knowledge and file domains
+- **Orchestrator**: The user — responsible for task decomposition, Agent selection, information relay, and final decisions
+- **Router**: Routes tasks based on complexity — direct-to-single-Agent or multi-Agent collaboration
+- **Worker**: Four domain Agents — each with independent knowledge domain and file domain
 
 ### 3.2 Communication Infrastructure
 
 All inter-Agent communication occurs through three channels:
 
 | Channel | Format | Lifecycle | Purpose |
-|------|------|---------|------|
-| **HANDOVER File** | HTML + STATE_BLOCK (JSON) | Cross-session persistent | Agent state snapshot + precise wake-up |
+|---------|--------|-----------|---------|
+| **HANDOVER File** | HTML + STATE_BLOCK (JSON) | Cross-session persistent | Agent state snapshot + precise wakeup |
 | **CROSS_ROLE_MSG** | JSON (embedded in HANDOVER) | Cross-session persistent | Structured inter-Agent messages |
 | **User Bridge** | Natural language | Within session | Real-time information relay + decision communication |
 
@@ -113,13 +112,13 @@ STATE_BLOCK (JSON) ─embedded in→ HANDOVER.html
      │
      ├── current_task: Current task ID
      ├── current_step: Current step number
-     ├── steps_done: List of completed steps
-     ├── blockers: Current blocking items
-     ├── next_action: Specific action to take on next activation
+     ├── steps_done: Completed step list
+     ├── blockers: Current blocking list
+     ├── next_action: Specific action on next wakeup
      └── context_files: Context files to load
 ```
 
-Upon wake-up, the AI does not need to read the entire HANDOVER — it directly parses the STATE_BLOCK to locate state, reducing wake-up time from O(n) to O(1).
+On wakeup, the AI doesn't need to read the full HANDOVER — instead, it directly parses STATE_BLOCK to locate state, reducing wakeup time from O(n) to O(1).
 
 ---
 
@@ -129,53 +128,53 @@ Upon wake-up, the AI does not need to read the entire HANDOVER — it directly p
 
 **Industry Practice**: Multi-Agent systems typically require databases (PostgresSaver), message queues (Redis), RPC frameworks, etc.
 
-**Our Innovation**: The file system itself serves as a unified infrastructure for state storage, message channels, and knowledge base. This brings three benefits:
-- **Zero Deployment**: No need to install any database or middleware
+**Our Innovation**: Treat the filesystem itself as a three-in-one infrastructure combining state storage, message channel, and knowledge base. This brings three benefits:
+- **Zero Deployment**: No need to install any databases or middleware
 - **Naturally Auditable**: Every state change has file history, natively supporting git diff
-- **Human-AI Co-readable**: HANDOVER files are human-readable (HTML), STATE_BLOCK is AI-parseable (JSON)
+- **Human-Machine Co-readable**: HANDOVER files human-readable (HTML), STATE_BLOCK AI-parseable (JSON)
 
 ### 4.2 Tiered Harness Constraints
 
 **Industry Practice**: One-size-fits-all — all Agents use the same constraint level.
 
 **Our Innovation**: A three-tier constraint strategy based on role characteristics:
-- **Full Constraints** (investment/career roles): Task kanban + Checkpoint + Blocking Protocol + Acceptance Checklist
-- **Medium Constraints** (technical roles): Long tasks are constrained, short Q&A is free
-- **Lightest Constraints** (life roles): STATE_BLOCK only for wake-up continuity
+- **Full Constraints** (Investment/Career roles): Task board + Checkpoint + Blocking Protocol + Acceptance Checklist
+- **Medium Constraints** (Technical roles): Long tasks constrained, short Q&A free
+- **Lightest Constraints** (Life roles): Only STATE_BLOCK for wakeup continuation
 
-This design avoids the absurdity of applying factory management workflows to psychological counseling.
+This design avoids the absurdity of "managing psychological counseling with factory management processes."
 
 ### 4.3 Cost-Aware Routing
 
 **Industry Practice**: All requests go through the full Multi-Agent collaboration process.
 
-**Our Innovation**: Based on Anthropic's empirical data (Multi-Agent outperforms single Agent by 90.2% but costs 15x more), a two-level routing system is introduced:
+**Our Innovation**: Based on Anthropic's empirical data (Multi-Agent 90.2% better performance but 15x cost), introduces two-level routing:
 
 ```
-Complexity 1-3 (simple query) → Route directly to target Agent (single Agent execution)
-Complexity 4-6 (medium analysis) → Orchestrator + 2 Workers
-Complexity 7-10 (complex cross-domain) → Full Orchestrator + all Workers
+Complexity 1-3 (Simple query) → Direct to target Agent (single Agent execution)
+Complexity 4-6 (Medium analysis) → Orchestrator + 2 Workers
+Complexity 7-10 (Complex cross-domain) → Full Orchestrator + all Workers
 ```
 
-This avoids running the full pipeline for simple problems, saving an estimated 60-80% token consumption.
+This avoids full-process execution for simple problems, estimated to save 60-80% token consumption.
 
 ### 4.4 Blocking Protocol
 
-**Industry Practice**: When Agents encounter blocks, they typically "wait for user reply" without structured recording.
+**Industry Practice**: When Agents encounter blockages, they typically "wait for user response" without structured recording.
 
-**Our Innovation**: Four-level blocking classification + cross-role visibility + standardized resolution workflow:
-- **BLOCKED** (awaiting user decision): Written to task kanban, auto-prompted in next conversation
-- **STALLED** (awaiting external event): Auto-check time set
-- **DEPENDENCY** (awaiting another Agent): Cross-role visible; target Agent knows someone is waiting
-- **INFO_NEED** (awaiting supplementary information): Non-blocking but recorded
+**Our Innovation**: Four-level blocking classification + cross-role visibility + standardized resolution process:
+- **BLOCKED** (Awaiting user decision): Written to task board, auto-prompted in next conversation
+- **STALLED** (Awaiting external event): Automatic check time set
+- **DEPENDENCY** (Awaiting other Agent): Cross-role visible, target Agent aware someone is waiting
+- **INFO_NEED** (Need supplementary information): Non-blocking but recorded
 
-Blocking is not failure — it is the structured expression of "needing external input to proceed."
+Blocking is not failure — blocking is the structured expression of "external input needed to continue."
 
 ### 4.5 Human-in-the-Loop as Core
 
-**Industry Practice**: Human-in-the-Loop is typically an add-on safety check step.
+**Industry Practice**: Human-in-the-Loop is typically an additional safety check step.
 
-**Our Innovation**: The human (user) is inherently a core node of the system architecture — Orchestrator + Router + message bus + final decision maker. Agents do not directly communicate with each other; all cross-role information must pass through the user. This appears to be a "bottleneck" but is actually **quality control** — ensuring the user maintains full control rather than being led by Agents.
+**Our Innovation**: The human (user) is inherently the core node of the system architecture — Orchestrator + Router + Message Bus + Final Decision Maker. Agents do not communicate directly with each other; all cross-role information must pass through the user. This appears to be a "bottleneck" but is actually **quality control** — ensuring the user always maintains control rather than being led by Agents.
 
 ---
 
@@ -183,50 +182,50 @@ Blocking is not failure — it is the structured expression of "needing external
 
 ### 5.1 Quick Start (5 minutes)
 
-**Step 1 — Create directory structure**
+**Step 1 — Create Directory Structure**
 
 ```bash
 mkdir -p strategy-bureau
 mkdir -p invest-strategy/checkpoints
 mkdir -p career-strategy/checkpoints
-mkdir -p tech-consultant/工作记录
-mkdir -p life-consultant/工作记录
+mkdir -p tech-consultant/work-logs
+mkdir -p life-consultant/work-logs
 mkdir -p deliverables/archive
 ```
 
-**Step 2 — Initialize core files**
+**Step 2 — Initialize Core Files**
 
 Copy the template files from this project into your workspace:
-- `组织架构与通信协议.md` → `strategy-bureau/`
-- `技术架构.md` → `strategy-bureau/`
-- `阻塞协议.md` → `strategy-bureau/`
-- `跨角色消息格式.md` → `strategy-bureau/`
+- `org-and-communication.md` → `strategy-bureau/`
+- `tech-architecture.md` → `strategy-bureau/`
+- `blocking-protocol.md` → `strategy-bureau/`
+- `cross-role-messages.md` → `strategy-bureau/`
 
-**Step 3 — Create the first Agent's self-portrait**
+**Step 3 — Create the First Agent's Self-Portrait**
 
-For each Agent, create a self-portrait file (using Agent C — Technical Consultant as an example):
+Create a self-portrait file for each Agent (using Agent C, Technical Advisor, as an example):
 
 ```markdown
-# Technical Engineering Consultant · Self-Portrait
+# Technical Engineering Advisor · Self-Portrait
 
 ## Identity
-You are the Technical Engineering Consultant (Agent C), focused on solving engineering problems.
-You run in an independent conversation with your own file domain tech-consultant/.
+You are the Technical Engineering Advisor (Agent C), focused on solving engineering problems.
+You run in an independent conversation with your own file domain at tech-consultant/.
 
-## Wake-up Protocol
-On each activation:
+## Wakeup Protocol
+Each time you are activated:
 1. Read the STATE_BLOCK in tech-consultant/AI_HANDOVER_STATUS.html
 2. Parse current task and step
-3. Do not ask "what did we talk about last time" — continue directly
+3. Do not ask "what were we talking about last time" — continue directly
 
-## Closure Protocol
+## Wrap-up Protocol
 After each task completion:
 1. Update STATE_BLOCK
-2. Write work log to tech-consultant/工作记录/
-3. If there is a reusable solution → record it to strategy-bureau/小贴士集.md
+2. Write work log to tech-consultant/work-logs/
+3. If there are reusable solutions → record in strategy-bureau/tips-collection.md
 ```
 
-**Step 4 — Start using**
+**Step 4 — Start Using**
 
 ```
 In Conversation A:
@@ -236,79 +235,79 @@ In Conversation B:
   → Paste Agent B self-portrait → Start career planning
 
 In Conversation C:
-  → Paste Agent C self-portrait → Start technical consultation
+  → Paste Agent C self-portrait → Start technical consulting
 
-Switching roles = Switching conversations = Pasting the corresponding self-portrait
+Switch role = Switch conversation = Paste corresponding self-portrait
 ```
 
 ### 5.2 Daily Workflow
 
 ```
-Standard daily start-up process (5 minutes):
+Standard daily startup flow (5 minutes):
 
-1. Check daily summary board — see what each Agent did yesterday
-2. Check blockers — review the _blockers array in the task kanban; prioritize resolving BLOCKED items
-3. Activate Agents on demand — choose which roles to work with today, paste self-portraits
-4. Work — have normal conversations, complete tasks
-5. Closure — at the end of each conversation, require the Agent to execute the closure SOP
+1. Check daily board — see what each Agent did yesterday
+2. Check blockages — review _blockers array in task board, prioritize resolving BLOCKED
+3. Activate Agents on demand — select roles needing work today, paste self-portrait
+4. Work — normal conversation, complete tasks
+5. Wrap-up — at end of each conversation, ask Agent to execute wrap-up SOP
 ```
 
 ### 5.3 Cross-Role Information Transfer
 
 ```
-Scenario: Agent C (Technical Consultant) discovers information valuable to Agent B (Career Consultant)
+Scenario: Agent C (Tech Advisor) discovers information valuable to Agent B (Career Advisor)
 
-Workflow:
-1. Agent C writes findings into their HANDOVER → CROSS_ROLE_MSG
+Process:
+1. Agent C writes discovery into its HANDOVER → CROSS_ROLE_MSG
    {
      "from": "AgentC",
      "to": "AgentB",
      "type": "signal",
-     "summary": "Technology breakthrough progress in a certain industry"
+     "summary": "Industry X technology breakthrough progress"
    }
-2. When the user next activates Agent B, Agent B reads the HANDOVER and discovers the message
-3. Agent B adjusts analysis based on the message
+2. User (you) next activates Agent B — Agent B reads HANDOVER and discovers message
+3. Agent B adjusts analysis based on message
 
-Key: The user is the bridge for information transfer; no automation dependency
+Key: User is the bridge for information transfer, no automation dependency
 ```
 
 ### 5.4 Adapt to Your Needs
 
-**Only managing one domain?** Use just 1 Agent + lightest constraints (STATE_BLOCK is sufficient)
+**Managing only one domain?** Use just 1 Agent + lightest constraints (STATE_BLOCK is sufficient)
 
-**Want to add more domains?** Create a new role directory + self-portrait + choose constraint level based on complexity
+**Want to add more domains?** Create new role directory + self-portrait + choose constraint level based on complexity
 
-**Already have existing AI tools?** The consultant portable protocol allows activating via pasting self-portrait in any AI conversation
+**Already have AI tools?** The Advisor Portability Protocol allows activation in any AI conversation by pasting the self-portrait
 
 ---
 
-## 6. Architecture Advantage Analysis
+## 6. Architecture Strengths Analysis
 
-### 6.1 Comparison with Mainstream Approaches
+### 6.1 Comparison with Mainstream Solutions
 
-| Dimension | Single Agent Conversation | Silicon Strategy Bureau | Enterprise Framework |
-|------|:---:|:---:|:---:|
-| **Domain Isolation** | ❌ Context pollution | ✅ Each Agent in independent conversation | ✅ |
-| **Cross-Session Memory** | ❌ Reset each time | ✅ STATE_BLOCK precise wake-up | ✅ |
-| **Cross-Domain Information Flow** | ❌ None | ✅ CROSS_ROLE_MSG + user bridge | ✅ |
-| **Deployment Cost** | None | None (pure files) | High (databases + services) |
-| **Learning Curve** | Very low | Low (understand file rules) | High (requires programming) |
-| **Cost Control** | Naturally lowest | Cost-aware routing | Typically full execution |
-| **Auditability** | None | git natively supported | Requires separate logging system |
+| Dimension | Single Agent Conversation | Silicon Strategy Bureau | Enterprise Frameworks |
+|-----------|:---:|:---:|:---:|
+| **Domain Isolation** | ❌ Context pollution | ✅ Each Agent independent conversation | ✅ |
+| **Cross-Session Memory** | ❌ Start over each time | ✅ STATE_BLOCK precise wakeup | ✅ |
+| **Cross-Domain Information Flow** | ❌ None | ✅ CROSS_ROLE_MSG + User bridge | ✅ |
+| **Deployment Cost** | None | None (pure files) | High (DB + services) |
+| **Learning Curve** | Very Low | Low (understand file rules) | High (requires programming) |
+| **Cost Control** | Naturally lowest | Cost-aware routing | Usually full execution |
+| **Auditability** | None | Native git support | Requires separate logging system |
 
-### 6.2 Suitable vs. Unsuitable Scenarios
+### 6.2 Suitable vs Unsuitable Scenarios
 
 **✅ Suitable Scenarios:**
 - Individual knowledge workers managing multiple professional domains
 - Need for long-term memory and cross-session state persistence
-- Cross-domain information needs to flow but does not require real-time delivery
-- Limited budget, unwilling to pay for database/message queue costs
+- Cross-domain information needs flow but doesn't require real-time
+- Limited budget, don't want to pay for database/message queue costs
 
 **❌ Unsuitable Scenarios:**
-- Need for direct real-time communication between Agents
+- Need for direct real-time Agent-to-Agent communication
 - Need for parallel Agent execution
 - Large-scale collaboration with 10+ Agents
-- Need for strict concurrency consistency guarantees
+- Need for strict concurrent consistency guarantees
 
 ---
 
@@ -317,15 +316,15 @@ Key: The user is the bridge for information transfer; no automation dependency
 ### 7.1 Known Limitations
 
 1. **User as Single-Point Bottleneck**: When the user is offline, all cross-role communication stops. Mitigation: automated tasks (scheduled briefings, etc.) run independently.
-2. **No Concurrency Consistency**: The file system does not support ACID guarantees for concurrent writes. Currently a non-issue with single-threaded serial execution; needs upgrade if parallel Agents are introduced.
-3. **CROSS_ROLE_MSG is Non-Automated**: Message delivery still depends on manual user relay; automatic routing not yet implemented.
+2. **No Concurrent Consistency**: Filesystem doesn't support ACID guarantees for concurrent writes. Currently not an issue with single-threaded serial execution; needs upgrade when introducing parallel Agents.
+3. **CROSS_ROLE_MSG Not Automated**: Message delivery still depends on user manual relay; automatic routing not yet implemented.
 4. **Lack of Token Cost Tracking**: Cannot track API consumption by role; cost optimization relies on manual estimation.
 
 ### 7.2 Future Directions
 
-- **Automated Message Routing**: Monitor CROSS_ROLE_MSG blocks in HANDOVER files and auto-push to target Agents
-- **Shared Message Queue**: Introduce a local file queue for asynchronous Agent message reading
-- **Parallel Agent Execution**: Upgrade to external state storage (SQLite/BoltDB) to support concurrent multi-Agent work
+- **Automated Message Routing**: Monitor HANDOVER files for CROSS_ROLE_MSG blocks, auto-push to target Agents
+- **Shared Message Queue**: Introduce local file queue, Agents can asynchronously read pending messages
+- **Parallel Agent Execution**: Upgrade to external state storage (SQLite/BoltDB), support multiple Agents working simultaneously
 - **Cost Dashboard**: Track token consumption by role/task
 
 ---
@@ -346,7 +345,7 @@ Key: The user is the bridge for information transfer; no automation dependency
 
 ---
 
-## A. Appendix: Task Kanban JSON Schema
+## A. Appendix: Task Board JSON Schema
 
 ```json
 {
@@ -372,7 +371,7 @@ Key: The user is the bridge for information transfer; no automation dependency
 }
 ```
 
-**Agent Permissions**: ✅ modify passes / ✅ modify steps_done / ✅ append blockers / ❌ delete tasks / ❌ add tasks / ❌ modify depends_on
+**Agent Permissions**: ✅ Modify passes / ✅ Modify steps_done / ✅ Append blockers / ❌ Delete tasks / ❌ Add tasks / ❌ Modify depends_on
 
 ---
 
@@ -386,7 +385,7 @@ Key: The user is the bridge for information transfer; no automation dependency
   "current_step": 2,
   "steps_done": [0, 1, 2],
   "blockers": [],
-  "next_action": "Complete Step 3: Data Collection",
+  "next_action": "Complete data collection for Step 3",
   "context_files": [
     "invest-strategy/checkpoints/task-001-phase1.json"
   ]
@@ -395,6 +394,6 @@ Key: The user is the bridge for information transfer; no automation dependency
 
 ---
 
-> *"The best architecture is the one the team can actually maintain. The Silicon Strategy Bureau's design philosophy: not the most powerful, but the most accessible."*
+> *"The best architecture is the one your team can actually maintain. The Silicon Strategy Bureau's design philosophy: not the most powerful, but the most accessible."*
 >
-> —— Silicon Strategy Bureau
+> — Silicon Strategy Bureau

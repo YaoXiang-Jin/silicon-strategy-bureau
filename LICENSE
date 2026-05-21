@@ -1,83 +1,82 @@
-# 硅基战略局 公共许可证 v1.0
+# Silicon Strategy Bureau Public License v1.0
 
-## Silicon Strategy Bureau Public License v1.0
-
-**版权所有 &copy; 2026 yx--jin（姚）**
+**Copyright &copy; 2026 YaoXiang-Jin (Yao)**
 
 ---
 
-## 一、许可范围
+## I. License Scope
 
-### ✅ 明确允许（无需付费）
+### ✅ Explicitly Permitted (No Fee)
 
-以下行为**无需事先获得书面授权，无需支付任何费用**：
+The following actions **do not require prior written authorization or payment**:
 
-1. **个人学习与研究**：任何自然人以个人身份阅读、学习、研究本项目的全部内容
-2. **个人非商业使用**：任何自然人以个人身份复制、修改、使用本项目或其衍生作品，且不涉及任何直接或间接的商业利益
-3. **教育用途**：在非营利性教育机构（学校、大学、培训机构等）的教学活动中使用、演示本项目
-4. **社区贡献**：对本项目提交 Issue、Pull Request、或在技术社区进行讨论、分享
-5. **代码片段引用**：在个人博客、技术文章、开源项目中引用不超过 50 行的代码片段，需注明出处
+1. **Personal Study & Research**: Any individual, in their personal capacity, may read, study, and research all content of this project
+2. **Personal Non-Commercial Use**: Any individual, in their personal capacity, may copy, modify, and use this project or its derivative works without involving any direct or indirect commercial benefit
+3. **Educational Use**: Use and demonstrate this project in teaching activities at non-profit educational institutions (schools, universities, training organizations, etc.)
+4. **Community Contribution**: Submit Issues, Pull Requests to this project, or discuss and share in technical communities
+5. **Code Snippet Citation**: Quote code snippets not exceeding 50 lines in personal blogs, technical articles, or open-source projects, with attribution required
 
-### ⚠️ 需付费授权（商业使用）
+### ⚠️ Commercial License Required
 
-以下行为**必须事先获得版权方书面授权，并支付相应许可费用**：
+The following actions **must obtain prior written authorization from the copyright holder and pay the corresponding license fee**:
 
-1. **企业内部使用**：任何企业、组织、机构（含营利与非营利）在内部业务系统中部署、集成、使用本项目或其衍生作品
-2. **商业产品集成**：将本项目或其衍生作品嵌入、打包、集成到商业产品或服务中（含 SaaS、PaaS、IaaS）
-3. **商业分发**：以任何形式出售、出租、许可本项目的全部或部分内容
-4. **商业服务**：利用本项目为客户提供付费咨询、开发、培训等商业服务
-5. **政府/军事使用**：任何政府部门、军事机构对本项目的使用
+1. **Enterprise Internal Use**: Any enterprise, organization, or institution (for-profit or non-profit) deploying, integrating, or using this project or its derivative works within internal business systems
+2. **Commercial Product Integration**: Embedding, packaging, or integrating this project or its derivative works into commercial products or services (including SaaS, PaaS, IaaS)
+3. **Commercial Distribution**: Selling, renting, or licensing all or part of this project in any form
+4. **Commercial Services**: Using this project to provide paid consulting, development, training, or other commercial services to clients
+5. **Government/Military Use**: Any use of this project by government departments or military institutions
 
-### 商业授权获取
+### Obtaining Commercial Authorization
 
-如需商业使用，请联系版权方获取商业许可：
+For commercial use, contact the copyright holder:
 
-- **邮箱**：yaoxjin@126.com
-- **Gitee**：https://gitee.com/yx--jin
-
----
-
-## 二、版权声明
-
-1. 本项目的全部知识产权（包括但不限于著作权、专利权、商标权）归 **yx--jin（姚）** 所有
-2. 本许可证不是版权转让协议，不转让任何知识产权
-3. 使用者必须在所有副本中保留完整的版权声明和本许可证文件
+- **Email**: yaoxjin@126.com
+- **GitHub**: https://github.com/YaoXiang-Jin
+- **Gitee**: https://gitee.com/yx--jin
 
 ---
 
-## 三、使用条件
+## II. Copyright Statement
 
-任何使用、复制、修改、分发本项目的个人或组织，必须遵守以下条件：
-
-1. **署名**：在所有使用场景中清晰注明原作者 `yx--jin` 及项目链接
-2. **保留许可声明**：不得删除或修改本许可证文件
-3. **非自动继承**：本许可证不随衍生作品自动继承。衍生作品的商业使用仍需原作者授权
-4. **修改声明**：如对源代码进行修改，需在修改处注明修改内容和日期
+1. All intellectual property rights of this project (including but not limited to copyright, patent rights, trademark rights) belong to **YaoXiang-Jin (Yao)**
+2. This license is not a copyright transfer agreement and does not transfer any intellectual property rights
+3. Users must retain the complete copyright notice and this license file in all copies
 
 ---
 
-## 四、权利的保留
+## III. Usage Conditions
 
-1. **追诉权**：版权方保留对任何未经授权的商业使用行为追究法律责任的权利
-2. **许可撤销权**：版权方有权在违反本许可证条款的情况下撤销对特定个人或组织的许可
-3. **条款更新权**：版权方保留更新本许可证条款的权利，新版本不影响已获得授权的使用
+Any individual or organization that uses, copies, modifies, or distributes this project must comply with the following conditions:
 
----
-
-## 五、免责声明
-
-本软件按"原样"提供，不作任何明示或默示的保证，包括但不限于对适销性、特定用途适用性和非侵权性的保证。在任何情况下，版权方均不对因使用本软件而产生的任何索赔、损害或其他责任负责。
+1. **Attribution**: Clearly credit the original author `YaoXiang-Jin` and project link in all usage scenarios
+2. **Preserve License Statement**: Do not delete or modify this license file
+3. **Non-Automatic Inheritance**: This license does not automatically inherit with derivative works. Commercial use of derivative works still requires original author authorization
+4. **Modification Declaration**: If source code is modified, indicate the modification content and date at the modification location
 
 ---
 
-## 六、适用法律
+## IV. Reservation of Rights
 
-本许可证受中华人民共和国法律管辖。因本许可证产生的争议，双方应友好协商解决；协商不成的，提交版权方所在地有管辖权的人民法院裁决。
-
----
-
-**开源不为免费午餐，尊重创作，共建生态。**
+1. **Right of Action**: The copyright holder reserves the right to pursue legal liability for any unauthorized commercial use
+2. **Right to Revoke License**: The copyright holder has the right to revoke the license of specific individuals or organizations in case of violation of this license's terms
+3. **Right to Update Terms**: The copyright holder reserves the right to update the terms of this license, with new versions not affecting authorized uses already granted
 
 ---
 
-*本许可证参考了 Creative Commons BY-NC 4.0、PolyForm Shield License 等开放许可证的设计思路，但根据项目特点进行了定制。*
+## V. Disclaimer
+
+This software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. In no event shall the copyright holder be liable for any claim, damages, or other liability arising from the use of this software.
+
+---
+
+## VI. Governing Law
+
+This license is governed by the laws of the People's Republic of China. Disputes arising from this license shall first be resolved through friendly negotiation; if negotiation fails, they shall be submitted to the competent people's court in the copyright holder's jurisdiction for adjudication.
+
+---
+
+**Open source is not a free lunch. Respect creation, build the ecosystem together.**
+
+---
+
+*This license references the design principles of Creative Commons BY-NC 4.0, PolyForm Shield License, and other open licenses, but has been customized based on project characteristics.*

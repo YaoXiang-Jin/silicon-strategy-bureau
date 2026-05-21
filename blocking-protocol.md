@@ -1,44 +1,44 @@
 # 🚧 Silicon Strategy Bureau · Blocking Escalation Protocol
 
-> **Applies to**: All members
+> **Applicable To**: All members
 >
-> **Core Philosophy**: A block is not a failure — it is a structured expression of "external input needed to proceed." Turn black-box waiting into visible dependencies.
+> **Core Concept**: Blocking is not failure — blocking is the structured expression of "external input needed to continue." Turn black-box waiting into visible dependencies.
 >
 > Version: v1.0
 
 ---
 
-## 1. Blocking Levels
+## I. Blocking Levels
 
 | Level | Meaning | Typical Scenario | Escalation Path |
 |-------|---------|------------------|-----------------|
-| **🔴 BLOCKED** | Fully blocked, requires user decision | User needs to make a clear choice (Plan A vs Plan B), or user needs to provide missing information | Write to `Task Board.json` → blocks field + auto-prompt on next conversation |
-| **🟡 STALLED** | Waiting for external data/event | Waiting for earnings release, waiting for policy implementation, waiting for a specific date | Record in HANDOVER, set auto-check time |
-| **🟢 DEPENDENCY** | Waiting for another Agent to complete | Agent B waiting for Agent C's work log, Agent A waiting for Agent B's internal information | Write to `Task Board.json` → cross_role_dependencies field |
-| **⚪ INFO_NEED** | Information needed but non-blocking | Would like to know but does not affect current work progress | Record in Tips Collection "Pending Info" area |
+| **🔴 BLOCKED** | Fully blocked, requires user decision | User needs to explicitly decide (Option A vs B), user needs to provide missing information | Write to `task-board.json` → blocks field + auto-prompt next conversation |
+| **🟡 STALLED** | Waiting for external data/event | Waiting for earnings release, waiting for policy to land, waiting for a date | Record in HANDOVER, set automatic check time |
+| **🟢 DEPENDENCY** | Waiting for another Agent to complete | Agent B waiting for Agent C's work log, Agent A waiting for Agent B's internal info | Write to `task-board.json` → cross_role_dependencies field |
+| **⚪ INFO_NEED** | Need information but non-blocking | Want to know but doesn't affect current work progress | Record in Tips Collection "supplementary info" section |
 
 ---
 
-## 2. Blocker Declaration Format (JSON)
+## II. Blocking Declaration Format (JSON)
 
 ```json
 {
   "blocker_id": "blk-{YYYYMMDD}-{seq}",
   "role": "AgentA|AgentB|AgentC|AgentD",
   "level": "BLOCKED|STALLED|DEPENDENCY|INFO_NEED",
-  "task_id": "Associated task ID (from Task Board)",
-  "blocked_at": "ISO 8601 timestamp when blocking occurred",
-  "blocking_item": "One-line description of the blocking cause",
-  "action_required": "Specific action needed to resolve the block",
-  "target_role": "Who needs to resolve it (User/AgentA/AgentB/AgentC/AgentD)",
-  "deadline": "If time-constrained, ISO 8601 or null",
-  "blocking_other_tasks": ["List of task IDs cascadingly affected by this block"],
+  "task_id": "Associated task ID (from task board)",
+  "blocked_at": "Blocking occurrence time ISO 8601",
+  "blocking_item": "One-line description of blocking cause",
+  "action_required": "Specific action needed to resolve",
+  "target_role": "Who needs to resolve (User/AgentA/AgentB/AgentC/AgentD)",
+  "deadline": "If time constraint exists, ISO 8601 or null",
+  "blocking_other_tasks": ["List of task IDs cascadingly affected"],
   "resolution": null,
   "resolved_at": null
 }
 ```
 
-### Example 1: BLOCKED (Waiting for User Decision)
+### Example 1: BLOCKED (Awaiting User Decision)
 
 ```json
 {
@@ -47,8 +47,8 @@
   "level": "BLOCKED",
   "task_id": "career-roadmap",
   "blocked_at": "2026-05-21T15:30:00",
-  "blocking_item": "Missing user's clear preference between 'Technical Expert vs Management Track'",
-  "action_required": "User to answer: In the next 3 years, do you prefer the technical expert track or the management track?",
+  "blocking_item": "Lack of user's explicit preference on 'tech expert vs management track'",
+  "action_required": "User answers: In the next 3 years, do you prefer the tech expert track or management track?",
   "target_role": "User",
   "deadline": null,
   "blocking_other_tasks": ["investment-analysis"],
@@ -57,7 +57,7 @@
 }
 ```
 
-### Example 2: STALLED (Waiting for External Event)
+### Example 2: STALLED (Awaiting External Event)
 
 ```json
 {
@@ -66,8 +66,8 @@
   "level": "STALLED",
   "task_id": "investment-analysis",
   "blocked_at": "2026-05-21T08:00:00",
-  "blocking_item": "A listed company's lock-up period expiration window lasts until Month X Day Y — no judgment should be made before then",
-  "action_required": "On Month X Day Y+1: Check if lock-up window has closed + whether stock price has stabilized",
+  "blocking_item": "Company X restricted share lockup window until Month X Day X — not advisable to judge before then",
+  "action_required": "Month X Day X+1: Check if lockup window closed + whether stock price stabilized",
   "target_role": "AgentA",
   "deadline": "2026-05-24T09:00:00",
   "blocking_other_tasks": [],
@@ -76,7 +76,7 @@
 }
 ```
 
-### Example 3: DEPENDENCY (Waiting for Another Agent)
+### Example 3: DEPENDENCY (Awaiting Another Agent)
 
 ```json
 {
@@ -85,8 +85,8 @@
   "level": "DEPENDENCY",
   "task_id": "skill-inventory",
   "blocked_at": "2026-05-21T16:00:00",
-  "blocking_item": "Need AgentC to complete a certain task and update work log before capability signals can be extracted",
-  "action_required": "AgentC to complete the corresponding task and update work log",
+  "blocking_item": "Need AgentC to complete task X and update work log to extract capability signals",
+  "action_required": "AgentC completes corresponding task and updates work log",
   "target_role": "AgentC",
   "deadline": null,
   "blocking_other_tasks": [],
@@ -97,59 +97,59 @@
 
 ---
 
-## 3. Blocker Lifecycle
+## III. Blocking Lifecycle
 
 ```
-Discover blocking →
+Discover Blockage →
   │
   ├── Assess level: BLOCKED / STALLED / DEPENDENCY / INFO_NEED
   │
   ├── Write to blockers list:
-  │     ├── Task Board.json → append to _blockers array
-  │     └── Own HANDOVER → STATE_BLOCK → blockers field
+  │     ├── task-board.json → append to _blockers array
+  │     └── own HANDOVER → STATE_BLOCK → blockers field
   │
-  ├── If blocking_other_tasks is non-empty:
-  │     └── Note in own HANDOVER "For Other Roles" section
+  ├── If blocking_other_tasks not empty:
+  │     └── Note in own HANDOVER "for other roles" section
   │
-  └── Wait for resolution →
+  └── Await resolution →
         │
         ├── Resolution conditions met →
         │     ├── Update blocker: resolution + resolved_at
         │     ├── Remove from _blockers array
         │     └── Continue blocked task
         │
-        └── If still blocked past deadline:
-              └── Write to ⚠️ Quick Alert area + notify user
+        └── If past deadline and still blocked:
+              └── Write to ⚠️ Rapid Alert Zone + notify user
 ```
 
 ---
 
-## 4. Wake-Up Blocking Check (All-Member SOP)
+## IV. Blocking Check on Wakeup (All-Member SOP)
 
 ```
-Every time a role is awakened, execute first:
+On each role activation, prioritize:
 
-Step 1 — Read Task Board.json → _blockers array
+Step 1 — Read task-board.json → _blockers array
 Step 2 — Read own HANDOVER → STATE_BLOCK → blockers
-Step 3 — If unresolved blockers found:
-   ├── BLOCKED → Help user resolve the block first (ask or remind)
-   ├── STALLED → Check if resolution conditions are met (time/event)
-   ├── DEPENDENCY → Check if target role's task is complete
+Step 3 — If unresolved blockages found:
+   ├── BLOCKED → Help user resolve (ask or remind)
+   ├── STALLED → Check if resolution conditions met (time/event)
+   ├── DEPENDENCY → Check if target role task completed
    └── Only continue original task after resolution
-Step 4 — If no blockers → proceed normally
+Step 4 — If no blockages → Normal continuation
 ```
 
 ---
 
-## 5. Known Anti-Patterns of Block Reporting
+## V. Known Anti-Patterns of Blocking Reporting
 
 | Anti-Pattern | Consequence | Correct Approach |
 |-------------|-------------|------------------|
-| "Wait for user to come back" (no record) | User returns not knowing there is a block | Write to blockers |
-| Blocking only written in conversation | Lost after session switch | Write to HANDOVER + Task Board |
-| Continue working on other things without marking block | User thinks task is progressing, but it's actually stuck | Explicitly mark BLOCKED, pause task |
-| DEPENDENCY not notified to target role | Target role unaware someone is waiting | Write in HANDOVER "For Other Roles" section |
+| "Wait for user to come back" (no record) | User doesn't know there's a blockage when returning | Write to blockers |
+| Blocking only recorded in conversation | Blockage lost on session switch | Write to HANDOVER + task board |
+| Continue other work while blocked without marking | User thinks task is progressing, actually stuck | Explicitly mark BLOCKED, pause task |
+| DEPENDENCY not notified to target role | Target role doesn't know someone is waiting | Clearly note in HANDOVER "for other roles" section |
 
 ---
 
-> *"Blocking is not the problem. The problem is blocking that no one knows about."*
+> *"Blocking is not scary. What's scary is blocking that no one knows about."*
