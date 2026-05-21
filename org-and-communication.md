@@ -4,7 +4,7 @@
 >
 > **Mode**: Chief Officers (Brain) set direction → Advisory Corps (Body) execute professionally → User (Physical Extension) implements in reality
 >
-> Version: v1.0 · Designed based on Anthropic Harness Framework
+> Version: v2.0 · Designed based on Anthropic Harness Framework · Last updated: 2026-05-22
 
 ---
 
@@ -72,6 +72,64 @@ Silicon Layer (AI) → Review, Adjust, Iterate
         ├── Function: Relationships · Emotional support · Mental health · Nutrition & wellness
         ├── Characteristic: High EQ, strict confidentiality, gentle and rational
         └── Mode: Lightest constraints (STATE_BLOCK only)
+```
+
+### 1.4 Task Lifecycle: JSON Single Source of Truth Principle
+
+> **This is the hardest rule in the architecture. Violating it = task records lost.**
+
+#### The Two-Layer System
+
+| System | Type | Lifetime | Purpose |
+|--------|------|----------|---------|
+| **task-board.json** | Static file | Permanent (Git versioned) | **Single source of truth for tasks** (What/Why/Status) |
+| **Checkpoint JSON** | Static file | Permanent | **Task execution records** (How/Decisions/Lessons) |
+| **TaskCreate/TaskUpdate** | UI mechanism | Session-only | **UI mirror**, purely for visual progress cards in conversation |
+
+**Key Rule**: TaskCreate is not independent. Every TaskCreate card must be a UI projection of a task in task-board.json.
+
+#### Task Lifecycle Protocol
+
+```
+【Start】
+  1. Determine if task is "substantive work" (not casual chat/Q&A)
+  2. If yes → first create/locate entry in task-board.json (id + title + steps + acceptance_criteria)
+  3. Map JSON entry to TaskCreate UI card (purely for progress visualization)
+
+【In Progress】
+  4. After each step → update JSON steps_done first → then TaskUpdate UI card
+  5. When blocked → add depends_on or create blocker in JSON
+
+【Recovery from Interruption】
+  6. When conversation resumes → read task-board.json + latest Checkpoint → precise recovery, no reliance on context summaries
+
+【Completion】
+  7. All acceptance criteria passed → update JSON passes: true
+  8. Write Checkpoint JSON: record decisions, artifacts, lessons, data_points
+  9. TaskUpdate mark complete (UI sync only)
+  10. Write to working memory (daily log + long-term memory)
+```
+
+#### What Counts as "Substantive Work"
+
+Any of the following qualifies as substantive work and MUST follow the above protocol:
+- Creating/modifying files (except temporary tests)
+- Executing external operations (Git push, API calls, web requests)
+- Making technical decisions (framework selection, architecture, approach)
+- Completing analysis/research reports
+- Fixing bugs or identifying root causes
+- Distilling Skills / Tips / Frameworks
+
+**Non-substantive** (no JSON record needed): casual chat, simple Q&A, file viewing, information search.
+
+#### Why This Must Be Done
+
+```
+Tasks without JSON records = tasks that don't exist
+
+The reason is simple: TaskCreate/TaskUpdate is a session-level temporary mechanism.
+Close the conversation → UI cards disappear → only files remain.
+If a task exists only in UI, not in JSON → close conversation → task "evaporates".
 ```
 
 ---
@@ -290,6 +348,137 @@ workspace/
     ├── self-portrait.html          ← Initialization package (portable)
     └── work-logs/
 ```
+
+---
+
+## Chapter 7: Skill System Mandatory Management
+
+> **Added in v2.0**. Ensures skill assets don't decay, duplicate, or stagnate — enabling sustainable evolution.
+
+### 7.1 Skill Storage Location
+
+```
+Inside workspace (Git-backed):
+  .workbuddy/skills/   ← Authoritative storage for all Skills
+
+Outside workspace (runtime data, not backed up):
+  .workbuddy/memory/    ← Session memory (should be in .gitignore)
+  .workbuddy/automations/ ← Automation configs (should be in .gitignore)
+```
+
+**Rule**: Every Skill must have a copy under workspace `.workbuddy/skills/`. Sync new Skills to this directory on creation.
+
+### 7.2 Skill Classification System
+
+| Category | Prefix | Examples |
+|----------|--------|----------|
+| **Financial Data** | finance- | `neodata-financial-search`, `westock-data`, `futuapi` |
+| **AI/Development** | dev- | `fullstack-dev`, `github`, `github-mirror` |
+| **Enterprise Collaboration** | enterprise- | `wecom-unified`, `tencent-docs`, `tencent-yunzhi` |
+| **Content Creation** | content- | `travel-guide-watercolor`, `travel-guide-pdf` |
+| **Meta-Skills** | meta- | `colleague-skill`, `boss-skills`, `yourself-skill` |
+| **Marketplace Plugins** | marketplace- | `a-share-analysis@cb_teams_marketplace/*` |
+
+### 7.3 Deduplication Check (Quarterly)
+
+**Dedup Decision Rules**:
+1. Two Skills with ≥70% functional overlap → candidate for merging
+2. Skills explicitly referenced in system prompts → auto-exempt from dedup
+3. Skills providing unique capabilities (e.g., trade execution) → auto-exempt
+4. Merging requires user confirmation; never auto-delete
+
+### 7.4 Regular Audit Calendar
+
+| Frequency | Audit Item | Executor |
+|-----------|-----------|----------|
+| **After each problem solved** | Distill into new Skill/Tip/Framework | Current conversation AI |
+| **Weekly Sunday** | Check for unarchived distillation outputs | Any role |
+| **Monthly 1st** | Skill usage frequency stats (flag unused >3 months) | Tech Advisor |
+| **Quarterly** | Dedup audit + classification + stale cleanup proposals | Tech Advisor → User approval |
+| **Semi-annual** | Skill directory rename to align with naming conventions | Tech Advisor → User approval |
+
+### 7.5 Skill Quality Gate
+
+New Skills must satisfy all of the following before creation:
+
+- [ ] SKILL.md contains explicit `name`, `description`, and trigger conditions
+- [ ] Verified no ≥70% overlap with existing skills
+- [ ] Contains at least one executable workflow step
+- [ ] Classification prefix determined
+- [ ] Synced to workspace `.workbuddy/skills/`
+
+---
+
+## Chapter 8: "Teach You" High-Efficiency Teaching Framework
+
+> **Added in v2.0**. Optimal teaching methodology based on cognitive science and human learning research.
+> Core philosophy: AI doesn't just "do it for you" — it uses the most scientific methods to "teach you to do it yourself."
+
+### 8.1 Theoretical Foundation: Six Cognitive Science Pillars
+
+| Method | Core Principle | Effectiveness | Source |
+|--------|---------------|---------------|--------|
+| **Feynman Technique** | Explain complex concepts in simple language; can't explain = don't understand | ⭐⭐⭐⭐⭐ | Richard Feynman |
+| **Deliberate Practice** | Practice in learning zone (not comfort/panic) + immediate feedback | ⭐⭐⭐⭐⭐ | Anders Ericsson |
+| **Spaced Repetition** | Review at forgetting threshold, rather than cramming | ⭐⭐⭐⭐⭐ | Ebbinghaus Forgetting Curve |
+| **Active Recall** | Testing yourself > re-reading; retrieval strengthens neural pathways | ⭐⭐⭐⭐ | Karpicke & Roediger, Science 2008 |
+| **Interleaving** | Mix different problem types, rather than blocking similar ones | ⭐⭐⭐⭐ | Kornell & Bjork, 2008 |
+| **Dual Coding** | Text + visuals together, dual-channel memory reinforcement | ⭐⭐⭐ | Paivio |
+
+**Warning** — The following common practices are proven ineffective:
+- ❌ Repeated re-reading/highlighting (passive, creates "illusion of familiarity")
+- ❌ Blocked practice of same-type problems (short-term gains, rapid long-term forgetting)
+- ❌ Listening without doing (knowledge doesn't convert to skill)
+- ❌ Massed information dumping (exceeds working memory capacity)
+
+### 8.2 AI→Human Six-Step Teaching Pipeline
+
+This is the standard process all Silicon Strategy Bureau roles must follow when "teaching the user":
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Step 1  Framework First     Show the Map            │
+│          One sentence for the core concept + one     │
+│          diagram showing the full picture            │
+│          "This problem is essentially X, involving   │
+│           Y key components..."                       │
+├─────────────────────────────────────────────────────┤
+│  Step 2  Feynman Explain     Explain Like I'm Learning│
+│          Use analogies, stories, visuals to explain  │
+│          each key concept                            │
+│          "It's like... (analogy), the core is..."    │
+├─────────────────────────────────────────────────────┤
+│  Step 3  Guided Practice     Let's Do It Together    │
+│          Show the full operation, explain WHY at     │
+│          each step. Provide executable code/steps.   │
+├─────────────────────────────────────────────────────┤
+│  Step 4  Independent Practice  Your Turn             │
+│          Give a variant problem for the user to      │
+│          solve independently                         │
+│          "If conditions change (X becomes Y), how    │
+│           would you handle it?"                      │
+├─────────────────────────────────────────────────────┤
+│  Step 5  Review & Connect    Connect the Dots        │
+│          Summarize "what you learned" + link to      │
+│          previously learned knowledge                │
+│          Update tips collection / knowledge graph    │
+├─────────────────────────────────────────────────────┤
+│  Step 6  Spaced Recall       Timed Review            │
+│          Proactively bring up related review at      │
+│          1 day / 1 week / 1 month / 3 months         │
+│          "Last time you learned X, today there's a   │
+│           relevant scenario..."                      │
+└─────────────────────────────────────────────────────┘
+```
+
+### 8.3 Quality Metrics
+
+| Metric | Target | Description |
+|--------|--------|-------------|
+| **Independence Rate** | ≥80% | Rate at which user can independently complete similar tasks after teaching |
+| **Transfer Rate** | ≥50% | Rate at which user applies learned methods to different scenarios |
+| **Distillation Rate** | 100% | Every problem solved must yield a reusable output |
+| **Recall Rate** | ≥70% | Memory retention rate during spaced recall sessions |
 
 ---
 
